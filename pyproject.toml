@@ -10,5 +10,6 @@ dependencies = [
     "flask-pymongo>=3.0.1",
     "gunicorn>=24.1.1",
     "pymongo>=4.16.0",
+    "python-dateutil>=2.9.0.post0",
     "python-dotenv>=1.2.1",
 ]
