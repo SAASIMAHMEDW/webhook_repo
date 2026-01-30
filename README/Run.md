@@ -12,8 +12,8 @@
 1. Clone and navigate:
 
    ```bash
-   git clone <your-repo-url>
-   cd webhook-repo
+   git clone https://github.com/SAASIMAHMEDW/webhook_action_receiver_repo.git
+   cd webhook_action_receiver_repo
    ```
 
 2. Install dependencies with UV:
@@ -84,11 +84,6 @@
 
    ```bash
    docker run -d -p 5000:5000 -e SECRET_KEY=super_secret -e MONGO_URI="xxx" --name webhook-app webhook-app
-   ```
-
-3. Or run with local MongoDB:
-   ```bash
-   docker run -d -p 5000:5000 -e MONGO_URI="mongodb://host.docker.internalgithub_webhooks" --name webhook-app webhook-app
    ```
 
 ## Method 4: Docker Compose (Recommended for Full Stack)
