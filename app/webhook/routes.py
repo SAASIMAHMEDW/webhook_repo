@@ -49,19 +49,26 @@ def receiver():
         if event_data is None:
             return jsonify({"status": "ignored", "reason": "not a merge event"}), 200
         
-        # Store in MongoDB
-        mongo.db.events.insert_one(event_data)
-        
-        return jsonify({
-            "status": "success",
-            "event": event_data["action"],
-            "request_id": event_data["request_id"]
-        }), 201
+       result = mongo.db.events.update_one(
+            {"request_id": event_data["request_id"]},
+            {"$setOnInsert": event_data},
+            upsert=True
+        )
+
+        if result.upserted_id:
+            return jsonify({
+                "status": "success",
+                "event": event_data["action"],
+                "request_id": event_data["request_id"]
+            }), 201
+        else:
+            return jsonify({
+                "status": "skipped",
+                "message": "Event already exists",
+                "request_id": event_data["request_id"]
+            }), 200
         
     except Exception as e:
-        # Check if error is mongodb index uniqueness error
-        if "E11000" in str(e):
-            return jsonify({"status": "error", "message": "Duplicate request_id"}), 400
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
