@@ -59,6 +59,9 @@ def receiver():
         }), 201
         
     except Exception as e:
+        # Check if error is mongodb index uniqueness error
+        if "E11000" in str(e):
+            return jsonify({"status": "error", "message": "Duplicate request_id"}), 400
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
